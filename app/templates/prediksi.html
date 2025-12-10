@@ -1,0 +1,268 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .sidebar {
+    width: 220px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    min-height: 100vh;
+  }
+
+  .sidebar h3 {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .sidebar a {
+    display: block;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+
+  .sidebar a:hover {
+    background-color: #34495e;
+  }
+
+  .main-content {
+    padding: 20px 30px 20px 40px;
+    flex-grow: 1;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  .app-title {
+    font-size: 20px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .app-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .content-row {
+    display: flex;
+    gap: 30px;
+  }
+
+  form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  select, input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+
+  input[type="submit"] {
+    background-color: #2980b9;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #1c5980;
+  }
+
+  .result {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #eafaf1;
+    border-left: 5px solid #27ae60;
+  }
+
+  .error {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fdecea;
+    border-left: 5px solid #e74c3c;
+  }
+
+  .acuan-box {
+    max-width: 400px;
+  }
+
+  table.acuan {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fdfdfd;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  table.acuan th, table.acuan td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  table.acuan th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+
+  table.acuan tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+</style>
+
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>📊 Menu</h3>
+    <a href="{{ url_for('main.dashboard') }}">🏠 Beranda</a>
+    <a href="{{ url_for('main.data_sparepart') }}">📋 Data Sparepart</a>
+    <a href="{{ url_for('main.prediksi') }}">📈 Prediksi</a>
+    <a href="{{ url_for('main.report') }}">📄 Laporan</a>
+    <a href="{{ url_for('main.logout') }}">🚪 Keluar</a>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content">
+    <h2>Tampilan Prediksi</h2>
+
+    <div class="app-title">Prediksi Penjualan Sparepart</div>
+    <div class="app-description">
+      Gunakan form di bawah ini untuk memprediksi apakah sparepart termasuk kategori laris atau tidak laris berdasarkan data input.
+    </div>
+
+    <div class="content-row">
+      <!-- Form Prediksi -->
+      <form method="POST">
+        <label for="Stok">Stok:</label>
+        <select name="Stok" id="Stok" required>
+          <option value="">-- Pilih --</option>
+          <option value="Banyak">Banyak</option>
+          <option value="Sedang">Sedang</option>
+          <option value="Dikit">Dikit</option>
+        </select>
+
+        <label for="Jumlah">Jumlah Terjual:</label>
+        <select name="Jumlah" id="Jumlah" required>
+          <option value="">-- Pilih --</option>
+          <option value="Tinggi">Tinggi</option>
+          <option value="Rendah">Rendah</option>
+        </select>
+
+        <label for="Harga">Harga:</label>
+        <select name="Harga" id="Harga" required>
+          <option value="">-- Pilih --</option>
+          <option value="Mahal">Mahal</option>
+          <option value="Murah">Murah</option>
+        </select>
+
+        <label for="Kategori">Kategori Sparepart:</label>
+        <select name="Kategori" id="Kategori" required>
+          <option value="">-- Pilih --</option>
+          <option value="Fast">Fast</option>
+          <option value="Slow">Slow</option>
+          <option value="Critical">Critical</option>
+        </select>
+
+        <input type="submit" value="Prediksi">
+      </form>
+
+      <!-- Acuan Klasifikasi -->
+      <div class="acuan-box">
+        <h4 style="margin-top:0;">📋 Acuan Klasifikasi</h4>
+        <table class="acuan">
+          <tr>
+            <th>Fitur</th>
+            <th>Kelas</th>
+            <th>Keterangan</th>
+          </tr>
+          <tr>
+            <td rowspan="3">Stok</td>
+            <td>Dikit</td>
+            <td>≤ 35</td>
+          </tr>
+          <tr>
+            <td>Sedang</td>
+            <td>36 – 55</td>
+          </tr>
+          <tr>
+            <td>Banyak</td>
+            <td>> 55</td>
+          </tr>
+          <tr>
+            <td rowspan="2">Jumlah Terjual</td>
+            <td>Rendah</td>
+            <td>≤ 30</td>
+          </tr>
+          <tr>
+            <td>Tinggi</td>
+            <td>> 30</td>
+          </tr>
+          <tr>
+            <td rowspan="2">Harga</td>
+            <td>Murah</td>
+            <td>< 1.800.000</td>
+          </tr>
+          <tr>
+            <td>Mahal</td>
+            <td>> 1.800.000</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Hasil Prediksi -->
+    {% if hasil %}
+      <div class="result">
+        💡 <strong>Hasil Prediksi:</strong> Sparepart diklasifikasikan sebagai <strong>{{ hasil|capitalize }}</strong>.
+      </div>
+
+      {% if accuracy %}
+        <div class="result" style="margin-top: 10px;">
+          📊 <strong>Skor Akurasi Model:</strong> {{ '{:.2%}'.format(accuracy) }}
+        </div>
+      {% endif %}
+
+      <form action="{{ url_for('main.cetak_hasil_prediksi') }}" method="post" target="_blank">
+        <button type="submit" style="margin-top: 15px; padding:10px 20px; background:#27ae60; color:white; border:none; border-radius:5px;">
+          🖨️ Cetak Hasil Prediksi
+        </button>
+      </form>
+    {% endif %}
+
+    {% if error %}
+      <div class="error">
+        ⚠️ <strong>Error:</strong> {{ error }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

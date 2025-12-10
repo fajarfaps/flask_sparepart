@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .sidebar {
+    width: 220px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    min-height: 100vh;
+  }
+
+  .sidebar h2 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .sidebar a {
+    display: block;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+
+  .sidebar a:hover {
+    background-color: #34495e;
+  }
+
+  .main-content {
+    padding: 20px 30px 20px 40px;
+    flex-grow: 1;
+  }
+
+  .app-title {
+    font-size: 20px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .app-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  select, button {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 5px;
+  }
+
+  button {
+    background-color: #2980b9;
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+
+  button:hover {
+    background-color: #1c5980;
+  }
+</style>
+
+<div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3 style="text-align:center; font-size: 16px;">📊 Menu</h3>
+    <a href="{{ url_for('main.dashboard') }}">🏠 Beranda</a>
+    <a href="{{ url_for('main.data_sparepart') }}">📋 Data Sparepart</a>
+    <a href="{{ url_for('main.prediksi') }}">📈 Prediksi</a>
+    <a href="{{ url_for('main.report') }}">📄 Laporan</a>
+    <a href="{{ url_for('main.logout') }}">🚪 Keluar</a>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content">
+    <h2>Tampilan Laporan</h2>
+
+    <div class="app-title">Laporan Data Sparepart</div>
+    <div class="app-description">
+      Pilih jenis laporan di bawah ini untuk mencetak data dalam bentuk PDF yang rapi dan siap dicetak.
+    </div>
+
+    <form action="{{ url_for('main.cetak_report') }}" method="post" target="_blank">
+      <div class="form-group">
+        <label for="pilihan_report">📄 Jenis Laporan:</label>
+        <select name="pilihan_report" id="pilihan_report" required>
+          <option value="">-- Pilih Jenis Laporan --</option>
+          <option value="klasifikasi">Keseluruhan Data Klasifikasi</option>
+          <option value="laris">Data Klasifikasi Laris</option> <!-- ✅ New -->
+          <option value="tidak_laris">Data Klasifikasi Tidak Laris</option> <!-- ✅ New -->
+          <option value="visualisasi">Laporan Visualisasi Klasifikasi</option>
+          
+        </select>
+      </div>
+      <button type="submit">🖨️ Cetak Laporan PDF</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Sistem Prediksi Sparepart</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #2c3e50, #4ca1af);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background-color: white;
+      padding: 40px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 170px;
+      height: 190px;
+      margin-bottom: 0;
+    }
+
+    .company-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2c3e50;
+      margin: 1 0 0 0;
+      font-size: 28px;
+    }
+
+    h3 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    form label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      text-align: left;
+    }
+
+    form input[type="text"],
+    form input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    form input[type="submit"] {
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #1c5980;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      background-color: #fdecea;
+      padding: 10px;
+      border-left: 5px solid #e74c3c;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <!-- ✅ Logo di Tengah & Tulisan di Bawah -->
+    <img src="{{ url_for('static', filename='logo_app.jpg') }}" alt="Logo" class="logo">
+    <div class="company-name">PT. NEOTRISTAR PRIMAJAYA</div>
+
+    <h3>Login Admin</h3>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="error-message">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('main.login') }}">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <input type="submit" value="Masuk">
+    </form>
+
+    <div class="footer">
+      &copy; {{ current_year or 2025 }} Sistem Prediksi Sparepart Mobil
+    </div>
+  </div>
+
+</body>
+</html>
